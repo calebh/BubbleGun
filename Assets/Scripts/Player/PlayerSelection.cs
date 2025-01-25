@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerSelection : MonoBehaviour
 {
-    public static int NumPlayers = 0;
-    public static int NumReady = 0;
+    public MeshRenderer Renderer;
 
     private bool IsReady = false;
 
@@ -20,15 +19,30 @@ public class PlayerSelection : MonoBehaviour
 
     private CharacterController Controller;
 
+    public float SelectionRotationSpeed = 10.0f;
+
+    private Material _CurrentMaterial;
+    private Material CurrentMaterial {
+        get {
+            return _CurrentMaterial;
+        }
+        set {
+            _CurrentMaterial = value;
+            Renderer.material = _CurrentMaterial;
+        }
+    }
+
     public void Awake() {
-        NumPlayers++;
         Controller = GetComponent<CharacterController>();
     }
 
     public void Start() {
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-        SelectionPoint = SelectionManager.Instance.AddPlayer();
+        var playerInfo = SelectionManager.Instance.AddPlayer();
+        SelectionPoint = playerInfo.Item1;
+        CurrentMaterial = playerInfo.Item2;
+
         if (SelectionPoint == null) {
             Destroy(gameObject);
         } else {
@@ -68,12 +82,38 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
+    public void OnNext(InputAction.CallbackContext context) {
+        if (!ReadyForActions) {
+            return;
+        }
+
+        if (context.action.triggered && !InGame && !IsReady) {
+            CurrentMaterial = SelectionManager.Instance.NextMaterial(CurrentMaterial);
+        }
+    }
+
+    public void OnPrev(InputAction.CallbackContext context) {
+        if (!ReadyForActions) {
+            return;
+        }
+
+        if (context.action.triggered && !InGame && !IsReady) {
+            CurrentMaterial = SelectionManager.Instance.PrevMaterial(CurrentMaterial);
+        }
+    }
+
     public void Update() {
         if (!ReadyForActions) {
             ReadyForActionsT += Time.deltaTime;
             if (ReadyForActionsT > 0.25f) {
                 ReadyForActions = true;
             }
+        }
+
+        if (!InGame) {
+            Vector3 currentRotation = transform.eulerAngles;
+            currentRotation.y += SelectionRotationSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(currentRotation);
         }
     }
 }

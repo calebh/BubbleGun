@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class SelectionManager : MonoBehaviour
 
     public GameObject ReadyToPlayText;
 
+    public Material[] DuckMaterials;
+    public bool[] DuckColorInUse;
+
     public bool ReadyToPlay {
         get {
             return NumReady >= NumPlayers && NumPlayers >= 2;
@@ -27,6 +31,10 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
+    public void Awake() {
+        DuckColorInUse = new bool[DuckMaterials.Length];
+    }
+
     public void Start() {
         foreach (GameObject point in SelectionPoints) {
             AvailableSelectionPoints.Add(point);
@@ -38,12 +46,57 @@ public class SelectionManager : MonoBehaviour
         AvailableSelectionPoints.Add(selectionPoint);
     }
 
-    public GameObject AddPlayer() {
+    private Material AllocateDuckColor() {
+        for (int i = 0; i < DuckMaterials.Length; i++) {
+            if (!DuckColorInUse[i]) {
+                DuckColorInUse[i] = true;
+                return DuckMaterials[i];
+            }
+        }
+
+        Debug.LogError("Unable to allocate duck color to player. Using default yellow.");
+        return DuckMaterials[0];
+    }
+
+    private Material AdvanceDuckColor(Material currentMaterial, int delta) {
+        int currentIdx = 0;
+        for (int i = 0; i < DuckMaterials.Length; i++) {
+            if (currentMaterial == DuckMaterials[i]) {
+                currentIdx = i;
+                break;
+            }
+        }
+
+        int potentialIdx = currentIdx;
+        while (true) {
+            potentialIdx = (potentialIdx + delta + DuckMaterials.Length) % DuckMaterials.Length;
+            if (potentialIdx == currentIdx) {
+                return currentMaterial;
+            } else {
+                if (!DuckColorInUse[potentialIdx]) {
+                    DuckColorInUse[currentIdx] = false;
+                    DuckColorInUse[potentialIdx] = true;
+                    return DuckMaterials[potentialIdx];
+                }
+            }
+        }
+    }
+
+    public Material NextMaterial(Material currentMaterial) {
+        return AdvanceDuckColor(currentMaterial, 1);
+    }
+
+    public Material PrevMaterial(Material currentMaterial) {
+        return AdvanceDuckColor(currentMaterial, -1);
+    }
+
+    public Tuple<GameObject, Material> AddPlayer() {
         if (AvailableSelectionPoints.Count > 0) {
             GameObject point = AvailableSelectionPoints[AvailableSelectionPoints.Count - 1];
             AvailableSelectionPoints.RemoveAt(AvailableSelectionPoints.Count - 1);
             NumPlayers++;
-            return point;
+            Material mat = AllocateDuckColor();
+            return Tuple.Create(point, mat);
         } else {
             return null;
         }

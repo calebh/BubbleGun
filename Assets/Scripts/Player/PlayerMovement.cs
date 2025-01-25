@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context) {
         Aiming = context.ReadValue<Vector2>();
-        Debug.Log(Aiming.magnitude);
     }
 
     public void OnControllerColliderHit(ControllerColliderHit hit) {
