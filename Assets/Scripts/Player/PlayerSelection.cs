@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerSelection : MonoBehaviour
 {
     public static int NumPlayers = 0;
@@ -17,8 +18,11 @@ public class PlayerSelection : MonoBehaviour
     private GameObject SelectionPoint;
     private GameObject SpawnPoint;
 
+    private CharacterController Controller;
+
     public void Awake() {
         NumPlayers++;
+        Controller = GetComponent<CharacterController>();
     }
 
     public void Start() {
@@ -36,7 +40,9 @@ public class PlayerSelection : MonoBehaviour
         InGame = true;
         GetComponent<Rigidbody>().isKinematic = false;
         SpawnPoint = SpawnManager.Instance.TakeRandomSpawn();
+        Controller.enabled = false;
         transform.position = SpawnPoint.transform.position;
+        Controller.enabled = true;
     }
 
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1) {
@@ -52,12 +58,12 @@ public class PlayerSelection : MonoBehaviour
             return;
         }
 
-        if (context.action.triggered) {
+        if (context.action.triggered && !InGame) {
             if (IsReady) {
                 SelectionManager.Instance.StartGame();
             } else {
                 IsReady = true;
-                SelectionManager.Instance.ReadyUp();
+                SelectionManager.Instance.ReadyUp(SelectionPoint);
             }
         }
     }

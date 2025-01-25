@@ -25,6 +25,13 @@ public class PlayerMovement : MonoBehaviour
         Movement = context.ReadValue<Vector2>();
     }
 
+    public void OnControllerColliderHit(ControllerColliderHit hit) {
+        HexTile tile = hit.gameObject.GetComponent<HexTile>();
+        if (tile != null) {
+            tile.ContactedPlayer();
+        }
+    }
+
     void Update() {
         if (!Selection.InGame) {
             return;

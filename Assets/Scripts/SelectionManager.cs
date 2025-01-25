@@ -9,6 +9,15 @@ public class SelectionManager : MonoBehaviour
     public int NumReady = 0;
 
     public GameObject[] SelectionPoints;
+    public GameObject[] ReadyText;
+
+    public GameObject ReadyToPlayText;
+
+    public bool ReadyToPlay {
+        get {
+            return NumReady >= NumPlayers && NumPlayers >= 2;
+        }
+    }
 
     public List<GameObject> AvailableSelectionPoints = new List<GameObject>();
 
@@ -40,15 +49,32 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    public void ReadyUp() {
+    private void SetReadyUp(GameObject selectionPoint, bool ready) {
+        for (int i = 0; i < SelectionPoints.Count(); i++) {
+            if (SelectionPoints[i] == selectionPoint) {
+                ReadyText[i].SetActive(ready);
+                break;
+            }
+        }
+    }
+
+    public void CancelReadyUp(GameObject selectionPoint) {
+        NumReady--;
+        SetReadyUp(selectionPoint, false);
+    }
+
+    public void ReadyUp(GameObject selectionPoint) {
         NumReady++;
+        SetReadyUp(selectionPoint, true);
     }
 
     public void StartGame() {
-        if (NumReady >= NumPlayers && NumPlayers >= 2) {
+        if (ReadyToPlay) {
             SceneManager.LoadScene("Game");
         }
     }
 
-    
+    public void Update() {
+        ReadyToPlayText.SetActive(ReadyToPlay);
+    }
 }
