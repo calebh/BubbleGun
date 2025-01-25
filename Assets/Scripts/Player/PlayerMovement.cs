@@ -17,6 +17,17 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 Movement = Vector2.zero;
     private Vector2 Aiming = new Vector2(1.0f, 0.0f);
 
+    private bool _IsTrappedInBubble = false;
+    public bool IsTrappedInBubble {
+        get {
+            return _IsTrappedInBubble;
+        }
+        set {
+            _IsTrappedInBubble = value;
+            Controller.enabled = !value;
+        }
+    }
+
     private void Start() {
         Controller = GetComponent<CharacterController>();
         Selection = GetComponent<PlayerSelection>();
@@ -38,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update() {
-        if (!Selection.InGame) {
+        if (!Selection.InGame || IsTrappedInBubble) {
             return;
         }
 
