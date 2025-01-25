@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float gravityValue = -9.81f;
 
     private Vector2 Movement = Vector2.zero;
+    private Vector2 Aiming = new Vector2(1.0f, 0.0f);
 
     private void Start() {
         Controller = GetComponent<CharacterController>();
@@ -23,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context) {
         Movement = context.ReadValue<Vector2>();
+    }
+
+    public void OnAim(InputAction.CallbackContext context) {
+        Aiming = context.ReadValue<Vector2>();
     }
 
     public void OnControllerColliderHit(ControllerColliderHit hit) {
@@ -58,5 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         Controller.Move(playerVelocity * Time.deltaTime);
+
+        transform.rotation = Quaternion.LookRotation(new Vector3(Aiming.x, 0.0f, Aiming.y));
     }
 }
