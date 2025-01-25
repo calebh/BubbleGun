@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context) {
         Aiming = context.ReadValue<Vector2>();
+        Debug.Log(Aiming.magnitude);
     }
 
     public void OnControllerColliderHit(ControllerColliderHit hit) {
@@ -47,11 +48,9 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(Movement.x, 0.0f, Movement.y);
-        Controller.Move(move * Time.deltaTime * PlayerSpeed);
-
-        if (move != Vector3.zero) {
-            gameObject.transform.forward = move;
+        if (Movement.magnitude > 0.1f) {
+            Vector3 move = new Vector3(Movement.x, 0.0f, Movement.y);
+            Controller.Move(move * Time.deltaTime * PlayerSpeed);
         }
 
         // Makes the player jump
@@ -64,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         Controller.Move(playerVelocity * Time.deltaTime);
 
-        transform.rotation = Quaternion.LookRotation(new Vector3(Aiming.x, 0.0f, Aiming.y));
+        if (Aiming.magnitude > 0.1f) {
+            transform.rotation = Quaternion.LookRotation(new Vector3(Aiming.x, 0.0f, Aiming.y));
+        }
     }
 }
