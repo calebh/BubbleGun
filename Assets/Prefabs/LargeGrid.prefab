@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RedMaterial: {fileID: 2100000, guid: 68458348bcc5a7142b3f071e5712041b, type: 2}
-  IsRedDuration: 2.5
+  IsRedDuration: 1.5
 --- !u!64 &4764592249017608235
 MeshCollider:
   m_ObjectHideFlags: 0

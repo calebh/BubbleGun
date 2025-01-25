@@ -15,6 +15,7 @@ public class PlayerSelection : MonoBehaviour
     public bool InGame = false;
 
     private GameObject SelectionPoint;
+    private GameObject SpawnPoint;
 
     public void Awake() {
         NumPlayers++;
@@ -31,10 +32,16 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
+    private void StartedGame() {
+        InGame = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        SpawnPoint = SpawnManager.Instance.TakeRandomSpawn();
+        transform.position = SpawnPoint.transform.position;
+    }
+
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1) {
         if (scene.name == "Game") {
-            InGame = true;
-            GetComponent<Rigidbody>().isKinematic = false;
+            StartedGame();
         } else {
             Destroy(gameObject);
         }
