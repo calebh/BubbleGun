@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-6030912573071435093
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shoot.sfx-003_{-6030912573071435093}
+  m_AudioClip: {fileID: 8300000, guid: 57691c1b768cacd4db4788fa65540b4f, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-5926317295983562447
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shoot.sfx-002_{-5926317295983562447}
+  m_AudioClip: {fileID: 8300000, guid: e75c9e44759de5543b343747beda8306, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-4629749098491024093
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shoot.sfx-001_{-4629749098491024093}
+  m_AudioClip: {fileID: 8300000, guid: 3a9bcf7ea90c691448a8c8f12dbdc308, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shoot-Container
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: -165.51706, y: 248.27597}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 9128672396227576622}
+  - {fileID: -4629749098491024093}
+  - {fileID: -5926317295983562447}
+  - {fileID: -6030912573071435093}
+  m_AvoidRepeatingLast: 1
+  m_PlaybackMode: 2
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &9128672396227576622
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shoot.sfx_{9128672396227576622}
+  m_AudioClip: {fileID: 8300000, guid: a4a55cc0e5c52054dad143c958b996c8, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

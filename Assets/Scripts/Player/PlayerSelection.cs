@@ -31,13 +31,12 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
-    private AudioSource AudioSource;
+    public AudioSource AudioSource;
     public AudioClip UI1;
     public AudioClip UI2;
 
     public void Awake() {
         Controller = GetComponent<CharacterController>();
-        AudioSource = GetComponent<AudioSource>();
         Rotator = GetComponent<DuckRotator>();
     }
 

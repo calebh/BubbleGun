@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 Movement = Vector2.zero;
     private Vector2 Aiming = new Vector2(1.0f, 0.0f);
 
-    private AudioSource Audio;
+    public AudioSource Audio;
     public AudioClip JumpAudio;
 
     public bool CanJump = true;
@@ -32,10 +32,6 @@ public class PlayerMovement : MonoBehaviour
             _IsTrappedInBubble = value;
             Controller.enabled = !value;
         }
-    }
-
-    public void Awake() {
-        Audio = GetComponent<AudioSource>();
     }
 
     private void Start() {
