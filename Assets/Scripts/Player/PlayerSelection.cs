@@ -18,8 +18,7 @@ public class PlayerSelection : MonoBehaviour
     private GameObject SpawnPoint;
 
     private CharacterController Controller;
-
-    public float SelectionRotationSpeed = 10.0f;
+    private DuckRotator Rotator;
 
     private Material _CurrentMaterial;
     public Material CurrentMaterial {
@@ -39,6 +38,7 @@ public class PlayerSelection : MonoBehaviour
     public void Awake() {
         Controller = GetComponent<CharacterController>();
         AudioSource = GetComponent<AudioSource>();
+        Rotator = GetComponent<DuckRotator>();
     }
 
     public void Start() {
@@ -66,6 +66,7 @@ public class PlayerSelection : MonoBehaviour
         Controller.enabled = false;
         transform.position = SpawnPoint.transform.position;
         Controller.enabled = true;
+        Rotator.enabled = false;
     }
 
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1) {
@@ -138,12 +139,6 @@ public class PlayerSelection : MonoBehaviour
             if (ReadyForActionsT > 0.25f) {
                 ReadyForActions = true;
             }
-        }
-
-        if (!InGame) {
-            Vector3 currentRotation = transform.eulerAngles;
-            currentRotation.y += SelectionRotationSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(currentRotation);
         }
     }
 }

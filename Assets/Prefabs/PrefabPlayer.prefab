@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 7089205611185220019}
   - component: {fileID: 5170270726196547967}
   - component: {fileID: -7673117425749186147}
+  - component: {fileID: 2393262655124050573}
   m_Layer: 0
   m_Name: PrefabPlayer
   m_TagString: Untagged
@@ -371,7 +372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Renderer: {fileID: 6953164136736722242}
   InGame: 0
-  SelectionRotationSpeed: 120
   UI1: {fileID: 8300000, guid: 2b1156fec33757346b6e8788c262b3f8, type: 3}
   UI2: {fileID: 8300000, guid: 529e41379460c72498e1b8928bade047, type: 3}
 --- !u!143 &6830306117579533720
@@ -527,6 +527,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2393262655124050573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417708413323179601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3baa87442b13d3f4fb3048e39d298ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSpeed: 120
 --- !u!1 &1606126138159221272
 GameObject:
   m_ObjectHideFlags: 0
