@@ -41,9 +41,16 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    public void RemovePlayer(GameObject selectionPoint) {
+    public void RemovePlayer(GameObject selectionPoint, Material duckMaterial) {
         NumPlayers--;
         AvailableSelectionPoints.Add(selectionPoint);
+
+        for (int i = 0; i < DuckMaterials.Length; i++) {
+            if (DuckMaterials[i] == duckMaterial) {
+                DuckColorInUse[i] = false;
+                break;
+            }
+        }
     }
 
     private Material AllocateDuckColor() {

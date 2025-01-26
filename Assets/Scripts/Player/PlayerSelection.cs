@@ -113,6 +113,25 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
+    public void OnBack(InputAction.CallbackContext context) {
+        if (!ReadyForActions) {
+            return;
+        }
+
+        if (context.action.triggered && !InGame) {
+            if (IsReady) {
+                IsReady = false;
+                SelectionManager.Instance.CancelReadyUp(SelectionPoint);
+            } else {
+                if (SelectionPoint != null) {
+                    SelectionManager.Instance.RemovePlayer(SelectionPoint, CurrentMaterial);
+                    SelectionPoint = null;
+                    Destroy(gameObject);
+                }
+            }
+        }
+    }
+
     public void Update() {
         if (!ReadyForActions) {
             ReadyForActionsT += Time.deltaTime;
