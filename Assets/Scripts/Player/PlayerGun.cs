@@ -15,8 +15,13 @@ public class PlayerGun : MonoBehaviour
 
     private PlayerMovement Movement;
 
+    public AudioClip Shoot;
+
+    private AudioSource AudioSource;
+
     public void Awake() {
         Movement = GetComponent<PlayerMovement>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     public void OnFire(InputAction.CallbackContext context) {
@@ -26,6 +31,7 @@ public class PlayerGun : MonoBehaviour
     private void SpawnProjectile() {
         GameObject projectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
         projectile.GetComponent<BubbleProjectile>().Initialize(gameObject, transform.forward);
+        AudioSource.PlayOneShot(Shoot);
     }
 
     public void Update() {

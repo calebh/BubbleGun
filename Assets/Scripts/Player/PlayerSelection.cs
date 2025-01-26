@@ -22,7 +22,7 @@ public class PlayerSelection : MonoBehaviour
     public float SelectionRotationSpeed = 10.0f;
 
     private Material _CurrentMaterial;
-    private Material CurrentMaterial {
+    public Material CurrentMaterial {
         get {
             return _CurrentMaterial;
         }
@@ -32,8 +32,13 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
+    private AudioSource AudioSource;
+    public AudioClip UI1;
+    public AudioClip UI2;
+
     public void Awake() {
         Controller = GetComponent<CharacterController>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     public void Start() {
@@ -50,10 +55,14 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
+    public void OnDestroy() {
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+    }
+
     private void StartedGame() {
         InGame = true;
         GetComponent<Rigidbody>().isKinematic = false;
-        SpawnPoint = SpawnManager.Instance.TakeRandomSpawn();
+        SpawnPoint = SpawnManager.Instance.TakeRandomSpawn(gameObject);
         Controller.enabled = false;
         transform.position = SpawnPoint.transform.position;
         Controller.enabled = true;
@@ -62,12 +71,12 @@ public class PlayerSelection : MonoBehaviour
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1) {
         if (scene.name == "Game") {
             StartedGame();
-        } else {
-            Destroy(gameObject);
         }
     }
 
     public void OnReady(InputAction.CallbackContext context) {
+        AudioSource.PlayOneShot(UI1);
+
         if (!ReadyForActions) {
             return;
         }
@@ -89,6 +98,7 @@ public class PlayerSelection : MonoBehaviour
 
         if (context.action.triggered && !InGame && !IsReady) {
             CurrentMaterial = SelectionManager.Instance.NextMaterial(CurrentMaterial);
+            AudioSource.PlayOneShot(UI2);
         }
     }
 
@@ -99,6 +109,7 @@ public class PlayerSelection : MonoBehaviour
 
         if (context.action.triggered && !InGame && !IsReady) {
             CurrentMaterial = SelectionManager.Instance.PrevMaterial(CurrentMaterial);
+            AudioSource.PlayOneShot(UI2);
         }
     }
 

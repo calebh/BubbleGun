@@ -31,6 +31,11 @@ public class HexTile : MonoBehaviour
     private MeshRenderer Renderer;
     private MeshCollider Collider;
 
+    public AudioClip FloorPop;
+    public AudioClip FloorRegen;
+
+    private AudioSource AudioSource;
+
     public bool IsInCircle {
         get {
             return Vector3.Distance(transform.position, CircleCenter.position) <= Circle.Radius;
@@ -40,6 +45,7 @@ public class HexTile : MonoBehaviour
     public void Awake() {
         Renderer = GetComponent<MeshRenderer>();
         Collider = GetComponent<MeshCollider>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -80,6 +86,7 @@ public class HexTile : MonoBehaviour
                 Collider.enabled = false;
                 PopState = PopState.POPPED;
                 PoppingT = 0.0f;
+                AudioSource.PlayOneShot(FloorPop);
             }
         } else if (PopState == PopState.POPPED) {
             RegenT += Time.deltaTime;
@@ -93,6 +100,7 @@ public class HexTile : MonoBehaviour
                 }
                 PopState = PopState.NORMAL;
                 RegenT = 0.0f;
+                AudioSource.PlayOneShot(FloorRegen);
             }
         }
     }

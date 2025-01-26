@@ -158,3 +158,4 @@ MonoBehaviour:
   Speed: 10
   TrappedDuration: 0.5
   TrappedScale: 3
+  EscapeClip: {fileID: 8300000, guid: 015dac39e1f3cdd48a4ef1dac20c445a, type: 3}
