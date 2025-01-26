@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
-    public TMP_Text CountdownText;
+    public GameObject CountdownText;
     public GameObject GameOverCanvas;
 
     public GameObject[] SpawnPoints;
@@ -24,10 +26,22 @@ public class SpawnManager : MonoBehaviour
     }
 
     private bool GameOver = false;
-    private float GameOverCountdown = 10.0f;
+    private float GameOverCountdown = 1.0f;
 
     public void Awake() {
         AvailableSpawns.AddRange(SpawnPoints);
+    }
+
+    public void OnEnable() {
+        InputSystem.onAnyButtonPress.CallOnce(HandleButton);
+    }
+
+    private void HandleButton(InputControl ctrl) {
+        if (!GameOver || GameOverCountdown >= 0.0f || (ctrl.device is Keyboard or Mouse)) {
+            InputSystem.onAnyButtonPress.CallOnce(HandleButton);
+        } else {
+            SceneManager.LoadScene("CharacterSelection");
+        }
     }
 
     public GameObject TakeRandomSpawn(GameObject player) {
@@ -36,17 +50,6 @@ public class SpawnManager : MonoBehaviour
         AvailableSpawns.RemoveAt(idx);
         Players.Add(player);
         return spawn;
-    }
-
-    private void CheckNewGame() {
-        if (GameOver) {
-            GameOverCountdown -= Time.deltaTime;
-            int secondsRemaining = Mathf.Max(0, (int) GameOverCountdown);
-            CountdownText.text = secondsRemaining.ToString();
-            if (GameOverCountdown <= 0.0f) {
-                SceneManager.LoadScene("CharacterSelection");
-            }
-        }
     }
 
     public void Update() {
@@ -77,6 +80,11 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        CheckNewGame();
+        if (GameOver) {
+            GameOverCountdown -= Time.deltaTime;
+            if (GameOverCountdown <= 0.0f) {
+                CountdownText.SetActive(true);
+            }
+        }
     }
 }
