@@ -92,8 +92,8 @@ public class SelectionManager : MonoBehaviour
 
     public Tuple<GameObject, Material> AddPlayer() {
         if (AvailableSelectionPoints.Count > 0) {
-            GameObject point = AvailableSelectionPoints[AvailableSelectionPoints.Count - 1];
-            AvailableSelectionPoints.RemoveAt(AvailableSelectionPoints.Count - 1);
+            GameObject point = AvailableSelectionPoints[0];
+            AvailableSelectionPoints.RemoveAt(0);
             NumPlayers++;
             Material mat = AllocateDuckColor();
             return Tuple.Create(point, mat);
