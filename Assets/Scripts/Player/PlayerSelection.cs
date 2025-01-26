@@ -75,6 +75,20 @@ public class PlayerSelection : MonoBehaviour
         }
     }
 
+    public void OnStartButton(InputAction.CallbackContext context) {
+        if (!ReadyForActions) {
+            return;
+        }
+
+        AudioSource.PlayOneShot(UI1);
+
+        if (context.action.triggered && !InGame) {
+            if (IsReady) {
+                SelectionManager.Instance.StartGame();
+            }
+        }
+    }
+
     public void OnReady(InputAction.CallbackContext context) {
         AudioSource.PlayOneShot(UI1);
 
@@ -83,9 +97,7 @@ public class PlayerSelection : MonoBehaviour
         }
 
         if (context.action.triggered && !InGame) {
-            if (IsReady) {
-                SelectionManager.Instance.StartGame();
-            } else {
+            if (!IsReady) {
                 IsReady = true;
                 SelectionManager.Instance.ReadyUp(SelectionPoint);
             }

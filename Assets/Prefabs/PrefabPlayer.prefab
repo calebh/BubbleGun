@@ -353,6 +353,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9e560808-23a6-4604-8788-0359df1981a1
     m_ActionName: 'Player/Back[/SwitchProControllerHID/buttonSouth,/DualSenseGamepadHID/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -2787592189380041005}
+        m_TargetAssemblyTypeName: PlayerSelection, Assembly-CSharp
+        m_MethodName: OnStartButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4394aaa2-f773-474d-bdd5-13088825bab2
+    m_ActionName: 'Player/Start[/SwitchProControllerHID/start,/DualSenseGamepadHID/start]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -413,6 +429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerSpeed: 6
   JumpHeight: 2
+  JumpAudio: {fileID: 8300000, guid: 747b391db1a5a814fbbbaeeeb8c06514, type: 3}
   CanJump: 1
 --- !u!114 &5170270726196547967
 MonoBehaviour:

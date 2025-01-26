@@ -19,9 +19,12 @@ public class BubbleProjectile : MonoBehaviour
 
     public AudioClip EscapeClip;
 
+    private PlayerSelection PlayerOfOriginSelection;
+
     public void Initialize(GameObject playerOfOrigin, Vector3 direction) {
         Direction = direction;
         PlayerOfOrigin = playerOfOrigin;
+        PlayerOfOriginSelection = playerOfOrigin.GetComponent<PlayerSelection>();
     }
 
     public void Update() {
@@ -32,19 +35,21 @@ public class BubbleProjectile : MonoBehaviour
         }
         transform.position = pos;
 
-        if (TrappedDuck != null) {
-            float scale = Mesh.localScale.x;
-            scale = MathUtils.Damp(scale, TrappedScale, 3.0f, Time.deltaTime);
-            Mesh.localScale = new Vector3(scale, scale, scale);
+        if (PlayerOfOriginSelection.InGame) {
+            if (TrappedDuck != null) {
+                float scale = Mesh.localScale.x;
+                scale = MathUtils.Damp(scale, TrappedScale, 3.0f, Time.deltaTime);
+                Mesh.localScale = new Vector3(scale, scale, scale);
 
-            TrappedDuck.transform.localPosition = MathUtils.DampVector3(TrappedDuck.transform.localPosition, Vector3.zero, 10.0f, Time.deltaTime);
-            TrappedAlarm -= Time.deltaTime;
-            if (TrappedAlarm <= 0.0f) {
-                TrappedDuck.transform.SetParent(null);
-                TrappedDuck.IsTrappedInBubble = false;
-                TrappedDuck.gameObject.GetComponent<Rigidbody>().isKinematic = TrappedStartIsKinematic;
-                TrappedDuck.gameObject.GetComponent<AudioSource>().PlayOneShot(EscapeClip);
-                Destroy(gameObject);
+                TrappedDuck.transform.localPosition = MathUtils.DampVector3(TrappedDuck.transform.localPosition, Vector3.zero, 10.0f, Time.deltaTime);
+                TrappedAlarm -= Time.deltaTime;
+                if (TrappedAlarm <= 0.0f) {
+                    TrappedDuck.transform.SetParent(null);
+                    TrappedDuck.IsTrappedInBubble = false;
+                    TrappedDuck.gameObject.GetComponent<Rigidbody>().isKinematic = TrappedStartIsKinematic;
+                    TrappedDuck.gameObject.GetComponent<AudioSource>().PlayOneShot(EscapeClip);
+                    Destroy(gameObject);
+                }
             }
         }
     }
@@ -54,18 +59,20 @@ public class BubbleProjectile : MonoBehaviour
             return;
         }
 
-        if (other.gameObject != PlayerOfOrigin) {
-            var otherMovement = other.gameObject.GetComponent<PlayerMovement>();
-            if (otherMovement != null) {
-                otherMovement.IsTrappedInBubble = true;
-                TrappedDuck = otherMovement;
-                other.gameObject.transform.SetParent(gameObject.transform);
-                Speed *= 0.5f;
-                TrappedAlarm = TrappedDuration;
-                Rigidbody trappedRigidBody = other.gameObject.GetComponent<Rigidbody>();
-                TrappedStartIsKinematic = trappedRigidBody.isKinematic;
-                trappedRigidBody.isKinematic = true;
-                TrappedY = transform.position.y + 2.0f;
+        if (PlayerOfOriginSelection.InGame) {
+            if (other.gameObject != PlayerOfOrigin) {
+                var otherMovement = other.gameObject.GetComponent<PlayerMovement>();
+                if (otherMovement != null) {
+                    otherMovement.IsTrappedInBubble = true;
+                    TrappedDuck = otherMovement;
+                    other.gameObject.transform.SetParent(gameObject.transform);
+                    Speed *= 0.5f;
+                    TrappedAlarm = TrappedDuration;
+                    Rigidbody trappedRigidBody = other.gameObject.GetComponent<Rigidbody>();
+                    TrappedStartIsKinematic = trappedRigidBody.isKinematic;
+                    trappedRigidBody.isKinematic = true;
+                    TrappedY = transform.position.y + 2.0f;
+                }
             }
         }
     }
