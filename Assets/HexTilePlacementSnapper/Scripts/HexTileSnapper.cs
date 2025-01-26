@@ -11,6 +11,7 @@ namespace HexTilePlacementSnapper
     [ExecuteInEditMode]
     public class HexTileSnapper : MonoBehaviour
     {
+#if UNITY_EDITOR
         [SerializeField]
         [Tooltip("The size (length in x axis) of each hex grid tile. " +
             "Try with 1.732050807568877f if 1 does not work for you. It depends on the model.")]
@@ -71,6 +72,7 @@ namespace HexTilePlacementSnapper
         {
             SceneView.duringSceneGui -= OnSceneGUI;
         }
+
 
         // listen to event to trigger snapping
         private void OnSceneGUI(SceneView sceneView)
@@ -193,5 +195,6 @@ namespace HexTilePlacementSnapper
             }
         }
         #endregion
+#endif
     }
 }

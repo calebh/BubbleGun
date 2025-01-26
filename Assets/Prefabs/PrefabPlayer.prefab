@@ -448,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectilePrefab: {fileID: 3422780217113072399, guid: a4817b300f2c6d0479ef435da01fa93b, type: 3}
   ProjectileSpawnPoint: {fileID: 3713698892740728479}
-  FiringInterval: 0.25
+  FiringInterval: 0.4
   Shoot: {fileID: 8300000, guid: a4a55cc0e5c52054dad143c958b996c8, type: 3}
   AudioSource: {fileID: 3611571871718794920}
 --- !u!82 &-7673117425749186147
